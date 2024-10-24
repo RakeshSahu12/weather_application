@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Weather App</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+	<style>
+		body {
+			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+			background-image: url('/weather_app.jpg');
+			/* Correct path for Spring Boot */
+			background-size: cover;
+			background-repeat: no-repeat;
+			background-position: center;
+			margin: 0;
+			padding: 0;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			height: 100vh;
+		}
+
+
+		h1 {
+			margin-bottom: 20px;
+			font-size: 3em;
+			color: black;
+			/* Sets the text color to black */
+			text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+			/* Keeps the shadow effect */
+		}
+
+		form {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			margin-bottom: 30px;
+		}
+
+		input[type="text"] {
+			padding: 15px;
+			font-size: 18px;
+			border: 2px solid #007bff;
+			border-radius: 5px;
+			width: 320px;
+			background-color: rgba(255, 255, 255, 0.8);
+			/* 50% transparency */
+			transition: all 0.3s ease;
+		}
+
+		input[type="text"]:focus {	
+			border-color: #0056b3;
+			outline: none;
+			box-shadow: 0 0 8px rgba(0, 123, 255, 0.8);
+			background-color: rgba(255, 255, 255, 0.8);
+			/* Adjust transparency on focus if needed */
+		}
+
+
+		button {
+			padding: 15px 20px;
+			font-size: 18px;
+			border: none;
+			border-radius: 5px;
+			background-color: #007bff;
+			color: white;
+			cursor: pointer;
+			margin-left: 10px;
+			transition: background-color 0.3s;
+		}
+
+		button:hover {
+			background-color: #0056b3;
+		}
+
+		.weather-info {
+			border: 1px solid rgba(255, 255, 255, 0.6);
+			border-radius: 10px;
+			padding: 20px;
+			background-color: rgba(255, 255, 255, 0.5);
+			/* Fully transparent */
+			width: 350px;
+			text-align: center;
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+			margin-bottom: 20px;
+		}
+
+		.weather-info h2 {
+			font-size: 2em;
+			margin-bottom: 10px;
+		}
+
+		.weather-info p {
+			font-size: 1.2em;
+			margin: 8px 0;
+		}
+
+		.error-message {
+			color: red;
+			font-weight: bold;
+		}
+
+		/* Mobile Responsiveness */
+		@media (max-width: 768px) {
+			body {
+				padding: 20px;
+			}
+
+			h1 {
+				font-size: 2em;
+			}
+
+			input[type="text"] {
+				width: 100%;
+			}
+
+			.weather-info {
+				width: 100%;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<h1>Weather Application</h1>
+
+	<form action="/weather" method="get">
+		<input type="text" name="city" placeholder="Enter city" required>
+		<button type="submit">Get Weather</button>
+	</form>
+
+	<div th:if="${weather != null}" class="weather-info">
+		<h2>Weather in <span th:text="${weather.name}"></span></h2>
+		<p><i class="fas fa-thermometer-half"></i> Temperature: <span th:text="${weather.main.temp}"></span>°C</p>
+		<p><i class="fas fa-sun"></i> Feels Like: <span th:text="${weather.main.feels_like}"></span>°C</p>
+		<p><i class="fas fa-arrow-down"></i> Min Temp: <span th:text="${weather.main.temp_min}"></span>°C</p>
+		<p><i class="fas fa-arrow-up"></i> Max Temp: <span th:text="${weather.main.temp_max}"></span>°C</p>
+		<p><i class="fas fa-cloud"></i> Condition: <span th:text="${weather.weather[0].description}"></span></p>
+	</div>
+
+	<div th:if="${error}" class="error-message">
+		<p th:text="${error}"></p>
+	</div>
+</body>
+
+</html>
